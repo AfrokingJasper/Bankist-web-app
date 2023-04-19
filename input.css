@@ -5,5 +5,5 @@
 .fade-in {
   opacity: 0;
 
-  transform: translateX(800px);
+  transform: translateY(800px);
 }

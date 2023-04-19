@@ -1,9 +1,11 @@
-const viewPassword = document.querySelectorAll(".view-password");
-const hidePassword = document.querySelectorAll(".hide-password");
-const passwordInput = document.querySelectorAll(".password");
+const viewPassword = document.querySelector(".view-password");
+const hidePassword = document.querySelector(".hide-password");
+const passwordInput = document.querySelector(".password");
+const viewPasswordSignUp = document.querySelector(".view-password-signup");
+const hidePasswordSignUp = document.querySelector(".hide-password-signup");
+const passwordInputSignUp = document.querySelector(".password-signup");
 const forms = document.querySelectorAll(".forms");
 const changeForm = document.querySelectorAll(".change-form");
-console.log(changeForm);
 
 changeForm.forEach((change) =>
   change.addEventListener("click", function (e) {
@@ -12,39 +14,29 @@ changeForm.forEach((change) =>
   })
 );
 
-viewPassword.forEach((view) => {
-  view.addEventListener("click", function () {
-    view.classList.toggle("hidden");
-    hidePassword.forEach((hide) => {
-      hide.classList.toggle("hidden");
-      passwordInput.forEach((inp) => inp.setAttribute("type", "password"));
-    });
-  });
+viewPasswordSignUp.addEventListener("click", function () {
+  toggleSignUp();
+  passwordInputSignUp.setAttribute("type", "password");
+});
+hidePasswordSignUp.addEventListener("click", function () {
+  toggleSignUp();
+  passwordInputSignUp.setAttribute("type", "text");
 });
 
-hidePassword.forEach((hide) => {
-  hide.addEventListener("click", function (v, h) {
-    hide.classList.toggle("hidden");
-    viewPassword.forEach((view) => {
-      view.classList.toggle("hidden");
-      passwordInput.forEach((inp) => inp.setAttribute("type", "text"));
-    });
-  });
+viewPassword.addEventListener("click", function () {
+  togglLogin();
+  passwordInput.setAttribute("type", "password");
+});
+hidePassword.addEventListener("click", function () {
+  togglLogin();
+  passwordInput.setAttribute("type", "text");
 });
 
-// const toggleHidden = function (view) {
-//   view.classList.toggle("hidden");
-//   // hide.forEach((h) => h.classList.toggle("hidden"));
-// };
-// // const toggleHidden = function (view, hide) {
-// //   view.forEach((v) => v.classList.toggle("hidden"));
-// //   hide.forEach((h) => h.classList.toggle("hidden"));
-// // };
-// hidePassword.forEach((hide) => {
-//   hide.addEventListener("click", toggleHidden(hide));
-// });
-
-// hide.classList.toggle("hidden");
-// viewPassword.forEach((view) => {
-//   view.classList.toggle("hidden");
-// });
+function togglLogin() {
+  viewPassword.classList.toggle("hidden");
+  hidePassword.classList.toggle("hidden");
+}
+function toggleSignUp() {
+  hidePasswordSignUp.classList.toggle("hidden");
+  viewPasswordSignUp.classList.toggle("hidden");
+}
