@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.fade-in {
+  opacity: 0;
+
+  transform: translateX(800px);
+}
