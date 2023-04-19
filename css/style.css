@@ -611,20 +611,8 @@ video {
   height: 1.75rem;
 }
 
-.h-\[25\%\] {
-  height: 25%;
-}
-
 .h-\[70\%\] {
   height: 70%;
-}
-
-.h-\[85\%\] {
-  height: 85%;
-}
-
-.h-\[90\%\] {
-  height: 90%;
 }
 
 .h-full {
@@ -633,6 +621,14 @@ video {
 
 .h-screen {
   height: 100vh;
+}
+
+.h-\[90\%\] {
+  height: 90%;
+}
+
+.h-\[10\%\] {
+  height: 10%;
 }
 
 .w-1\/6 {
@@ -659,6 +655,10 @@ video {
   width: 100%;
 }
 
+.min-w-full {
+  min-width: 100%;
+}
+
 .max-w-5xl {
   max-width: 64rem;
 }
@@ -669,6 +669,10 @@ video {
 
 .max-w-xl {
   max-width: 36rem;
+}
+
+.flex-1 {
+  flex: 1 1 0%;
 }
 
 .-translate-y-\[50\%\] {
@@ -705,16 +709,18 @@ video {
   align-items: center;
 }
 
-.justify-start {
-  justify-content: flex-start;
-}
-
-.justify-end {
-  justify-content: flex-end;
+.justify-center {
+  justify-content: center;
 }
 
 .justify-between {
   justify-content: space-between;
+}
+
+.space-x-10 > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-x-reverse: 0;
+  margin-right: calc(2.5rem * var(--tw-space-x-reverse));
+  margin-left: calc(2.5rem * calc(1 - var(--tw-space-x-reverse)));
 }
 
 .space-x-2 > :not([hidden]) ~ :not([hidden]) {
@@ -881,6 +887,11 @@ video {
   text-align: center;
 }
 
+.text-3xl {
+  font-size: 1.875rem;
+  line-height: 2.25rem;
+}
+
 .text-4xl {
   font-size: 2.25rem;
   line-height: 2.5rem;
@@ -967,6 +978,14 @@ video {
   transform: translateY(800px);
 }
 
+.transparent {
+  background-color: rgba(255, 255, 255, 0.6);
+}
+
+.height {
+  height: 550px;
+}
+
 .placeholder\:font-light::-moz-placeholder {
   font-weight: 300;
 }
@@ -1034,8 +1053,16 @@ video {
     flex-direction: column;
   }
 
-  .md\:justify-between {
-    justify-content: space-between;
+  .md\:space-x-0 > :not([hidden]) ~ :not([hidden]) {
+    --tw-space-x-reverse: 0;
+    margin-right: calc(0px * var(--tw-space-x-reverse));
+    margin-left: calc(0px * calc(1 - var(--tw-space-x-reverse)));
+  }
+
+  .md\:space-y-10 > :not([hidden]) ~ :not([hidden]) {
+    --tw-space-y-reverse: 0;
+    margin-top: calc(2.5rem * calc(1 - var(--tw-space-y-reverse)));
+    margin-bottom: calc(2.5rem * var(--tw-space-y-reverse));
   }
 
   .md\:overflow-hidden {
