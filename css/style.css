@@ -705,6 +705,14 @@ video {
   align-items: center;
 }
 
+.justify-start {
+  justify-content: flex-start;
+}
+
+.justify-end {
+  justify-content: flex-end;
+}
+
 .justify-between {
   justify-content: space-between;
 }
@@ -1024,6 +1032,10 @@ video {
 
   .md\:flex-col {
     flex-direction: column;
+  }
+
+  .md\:justify-between {
+    justify-content: space-between;
   }
 
   .md\:overflow-hidden {
