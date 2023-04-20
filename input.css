@@ -4,8 +4,7 @@
 
 .fade-in {
   opacity: 0;
-
-  transform: translateY(800px);
+  display: none;
 }
 
 .transaction-btn {
@@ -26,4 +25,17 @@
 
 .height {
   height: 550px;
+}
+
+/* summary divs */
+.summary {
+  @apply flex flex-row h-16 items-center justify-between md:px-10 bg-blue-300 border-b-2;
+}
+
+.summary-subcontainer {
+  @apply flex flex-row font-semibold text-xs space-x-5;
+}
+
+.summary-desc {
+  @apply px-2 rounded-full text-white;
 }
