@@ -8,6 +8,18 @@
   transform: translateY(800px);
 }
 
+.transaction-btn {
+  @apply bg-white w-1/6 h-1/2 rounded-md flex  items-center justify-center  text-2xl;
+}
+
+.transaction-boxes {
+  @apply flex flex-col pb-5 p-5 md:px-2 items-start space-y-2 rounded-xl mx-auto min-w-full;
+}
+
+.inputs {
+  @apply rounded-lg  focus:outline-none w-full text-center;
+}
+
 .transparent {
   background-color: rgba(255, 255, 255, 0.6);
 }
