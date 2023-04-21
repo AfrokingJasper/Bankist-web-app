@@ -230,10 +230,36 @@ const displayBalance = function (account) {
 const updateUI = function (account) {
   displayBalance(account);
   displayMovements(account);
+  displaySummary(account);
 };
 
 // ////////////////////////
 // login event handler
+const summaryIn = document.querySelector(".summary-in");
+const summaryOut = document.querySelector(".summary-out");
+const summaryInterest = document.querySelector(".summary-interest");
+
+const displaySummary = function (account) {
+  // incomes
+  const income = account.movements
+    .filter((mov) => mov > 0)
+    .reduce((acc, cur) => (acc += cur));
+  summaryIn.textContent = `${income}€`;
+
+  // expenditures
+  const expense = account.movements
+    .filter((mov) => mov < 0)
+    .reduce((acc, cur) => (cur += acc));
+  summaryOut.textContent = `${Math.abs(expense)}€`;
+
+  // interests
+  const interest = account.movements
+    .filter((mov) => mov > 0)
+    .map((mov) => mov * (account.interestRates / 100))
+    .filter((int) => int > 1)
+    .reduce((acc, cur) => (acc += cur));
+  summaryInterest.textContent = `${Math.floor(interest)}€`;
+};
 
 const dislayDashboard = function () {
   dashboard.classList.remove("opacity-0");
@@ -372,6 +398,12 @@ closeBtn.addEventListener("click", function (e) {
     );
     if (currentAccount.pin === +confirmCloseAccount) {
       console.log("correct");
+
+      const index = bank.acoounts.findIndex(
+        (acc) => acc.username === currentAccount.username
+      );
+      bank.acoounts.splice(index, 1);
+      console.log(bank.acoounts);
       welcomeMessage.textContent = "Login to get started";
       // dislayDashboard();
       dashboard.classList.add("opacity-0");
