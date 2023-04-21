@@ -1,3 +1,4 @@
+// forms variable declarations
 const viewPassword = document.querySelector(".view-password");
 const hidePassword = document.querySelector(".hide-password");
 const passwordInput = document.querySelector(".password");
@@ -6,6 +7,42 @@ const hidePasswordSignUp = document.querySelector(".hide-password-signup");
 const passwordInputSignUp = document.querySelector(".password-signup");
 const forms = document.querySelectorAll(".forms");
 const changeForm = document.querySelectorAll(".change-form");
+
+// //////////////////////////////////
+// dashboard variable declarations
+const headerRight = document.querySelector(".header-right-content");
+const loginForm = document.querySelector(".login-form");
+const loginUsername = document.querySelector("#username");
+const loginPassword = document.querySelector("#password");
+
+// dashborad, date and balance content
+const date = document.querySelector(".date");
+const dashboard = document.querySelector(".main-dashboard");
+const dateAndBalance = document.querySelector(".date-current-balance");
+const balance = document.querySelector(".balance");
+const welcomeMessage = document.querySelector(".welcome-el");
+const withdrawals = document.querySelector(".withdrawal");
+const movementSummary = document.querySelector(".movement-summary");
+
+// login event handler
+const summaryIn = document.querySelector(".summary-in");
+const summaryOut = document.querySelector(".summary-out");
+const summaryInterest = document.querySelector(".summary-interest");
+
+// TRANSFER BUTTON
+const transferInput = document.querySelector("#transfer");
+const transferAmount = document.querySelector("#transfer-amount");
+const transferBtn = document.querySelector(".transfer-btn");
+
+// CLOSE ACCOUNT EVENT HANDLERS AND VARIABLES
+const closeUsername = document.querySelector("#close-usernmae");
+const closePin = document.querySelector("#close-pin");
+const closeBtn = document.querySelector(".close-btn");
+// console.log(movementSummary);
+
+welcomeMessage.addEventListener("click", function () {
+  forms.forEach((form) => form.classList.remove("hidden"));
+});
 
 // //////////////////////////////////////////
 // SWITCH BETWEEN SIGN UP AND SIGN IN FORM
@@ -151,21 +188,7 @@ const creatUserName = function (fullname) {
 
 creatUserName(bank.acoounts);
 
-const headerRight = document.querySelector(".header-right-content");
-const loginForm = document.querySelector(".login-form");
-const loginUsername = document.querySelector("#username");
-const loginPassword = document.querySelector("#password");
-
-// dashborad, date and balance content
-const date = document.querySelector(".date");
-const dashboard = document.querySelector(".main-dashboard");
-const dateAndBalance = document.querySelector(".date-current-balance");
-const balance = document.querySelector(".balance");
-const welcomeMessage = document.querySelector(".welcome-el");
-const withdrawals = document.querySelector(".withdrawal");
-const movementSummary = document.querySelector(".movement-summary");
-// console.log(movementSummary);
-let currentAccount;
+let currentAccount, timer;
 
 ////////////////////////////////////////////
 // date format
@@ -188,19 +211,58 @@ const formattedDate = function (date, locale) {
   }
 };
 
+// ///////////////
+// CURRENCY FORMATTING
+const formatCur = function (locale, currency, value) {
+  return Intl.NumberFormat(locale, {
+    style: "currency",
+    currency: currency,
+  }).format(value);
+};
+
+// //////////////////////////////
+// SETTTING LOGOUT TIMER AND FUNCTION
+const logoutTimer = document.querySelector(".logout-timer");
+
+const setLogoutTimer = function () {
+  const tick = function () {
+    const min = String(Math.trunc(time / 60)).padStart(2, 0);
+    const sec = String(time % 60).padStart(2, 0);
+
+    logoutTimer.textContent = `${min}:${sec}`;
+    if (time === 0) {
+      clearInterval(timer);
+      welcomeMessage.textContent = "Login to get started";
+      // dislayDashboard();
+      dashboard.classList.add("opacity-0");
+      dateAndBalance.classList.add("opacity-0");
+      forms.forEach((form) => form.classList.remove("hidden"));
+    }
+    {
+      time--;
+    }
+  };
+  let time = 20;
+  tick();
+
+  const timer = setInterval(tick, 1000);
+
+  return timer;
+};
+
 // ////////////////////////////////
-// DISPLAY MOVEMENTS
-const displayMovements = function (account) {
+// DISPLAY MOVEMENTS FUNCTION
+const displayMovements = function (account, sort = false) {
   movementSummary.innerHTML = "";
-  const moves = account.movements;
-  // console.log(moves);
+  const sortedMov = account.movements.slice().sort((a, b) => a - b);
+  const moves = sort ? sortedMov : account.movements;
 
   moves.forEach(function (mo, i) {
     const type = mo > 0 ? `deposit` : `withdrawal`;
 
     const rawDate = new Date(account.movementDates[i]);
     const date = formattedDate(rawDate, account.locale);
-    // console.log(date);
+    const formattedCur = formatCur(account.locale, account.currency, mo);
 
     const html = document.createElement("div");
     html.innerHTML = `
@@ -213,7 +275,7 @@ const displayMovements = function (account) {
          </p>
          <p class="text-gray-500">${date}</p>
        </div>
-      <p class="text-xl text-gray-700">${mo}€</p>
+      <p class="text-xl text-gray-700">${formattedCur}</p>
     </div>
   `;
 
@@ -221,7 +283,8 @@ const displayMovements = function (account) {
   });
 };
 
-// display Balance
+// /////////////////////////////////
+// display Balance FUNCTION
 const displayBalance = function (account) {
   account.balance = account.movements.reduce((mov, cur) => (mov += cur));
   balance.textContent = `${account.balance}€`;
@@ -235,9 +298,6 @@ const updateUI = function (account) {
 
 // ////////////////////////
 // login event handler
-const summaryIn = document.querySelector(".summary-in");
-const summaryOut = document.querySelector(".summary-out");
-const summaryInterest = document.querySelector(".summary-interest");
 
 const displaySummary = function (account) {
   // incomes
@@ -272,6 +332,10 @@ const dislayDashboard = function () {
 // displayBalance(currentAccount);
 // dislayDashboard();
 
+//
+// EVENT HANDLER FUNCTION
+// //////////////////////////////
+// LOGIN FORM EVENR HANDLER
 loginForm.addEventListener("submit", function (e) {
   e.preventDefault();
   currentAccount = bank.acoounts.find(
@@ -301,18 +365,18 @@ loginForm.addEventListener("submit", function (e) {
       currentAccount.locale,
       options
     ).format(currenDate);
-    console.log(currentAccount.balance);
     loginPassword.value = loginUsername.value = "";
   } else {
     alert("username or password is incorrect");
   }
+  if (timer) {
+    clearInterval(timer);
+  }
+  timer = setLogoutTimer();
 });
 
 /////////////////////////////////////
-// TRANSFER BUTTON
-const transferInput = document.querySelector("#transfer");
-const transferAmount = document.querySelector("#transfer-amount");
-const transferBtn = document.querySelector(".transfer-btn");
+// TRANSFER BUTTON HANDLERS
 
 transferBtn.addEventListener("click", function (e) {
   e.preventDefault();
@@ -342,17 +406,14 @@ transferBtn.addEventListener("click", function (e) {
       currentAccount.movementDates.push(new Date().toISOString());
       updateUI(currentAccount);
       receiverAccount.movementDates.push(new Date().toISOString());
-      // console.log(receiverAccount);
       transferAmount.value = transferInput.value = "";
     } else {
       alert("incorrect pin! try again");
     }
   }
-});
-// console.log(new Date().toISOString());
 
-welcomeMessage.addEventListener("click", function () {
-  forms.forEach((form) => form.classList.remove("hidden"));
+  clearInterval(timer);
+  timer = setLogoutTimer();
 });
 
 // ///////////////////////////////////////////
@@ -378,13 +439,12 @@ loanBtn.addEventListener("click", function (e) {
   } else {
     alert("cannot process loan at the moment");
   }
+  clearInterval(timer);
+  timer = setLogoutTimer();
 });
 
 // ///////////////////////////////////////////////
 // CLOSE ACCOUNT EVENT HANDLERS AND VARIABLES
-const closeUsername = document.querySelector("#close-usernmae");
-const closePin = document.querySelector("#close-pin");
-const closeBtn = document.querySelector(".close-btn");
 
 closeBtn.addEventListener("click", function (e) {
   e.preventDefault();
@@ -408,7 +468,17 @@ closeBtn.addEventListener("click", function (e) {
       // dislayDashboard();
       dashboard.classList.add("opacity-0");
       dateAndBalance.classList.add("opacity-0");
-      forms.forEach((form) => form.classList.remove("opacity-0"));
+      forms.forEach((form) => form.classList.remove("hidden"));
     }
   }
+});
+
+// SORTING MOVEMENTS
+const btnSort = document.querySelector(".btn-sort");
+let sorted = false;
+btnSort.addEventListener("click", function (e) {
+  e.preventDefault();
+
+  displayMovements(currentAccount, !sorted);
+  sorted = !sorted;
 });
