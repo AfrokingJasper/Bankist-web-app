@@ -36,6 +36,9 @@
   @apply flex flex-row font-semibold text-xs space-x-5;
 }
 
-.summary-desc {
-  @apply px-2 rounded-full text-white;
+.summary-desc-withdrawal {
+  @apply px-2 rounded-full text-white bg-red-500;
+}
+.summary-desc-deposit {
+  @apply px-2 rounded-full text-white bg-green-500;
 }

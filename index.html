@@ -23,7 +23,7 @@
     <main class="max-w-5xl flex flex-col md:px-10 mx-auto relative">
       <!-- login form -->
       <form
-        class="hidden absolute z-10 login-form right-[50%] translate-x-[50%] forms container max-w-xl mx-auto self-center bg-white font-semibold rounded-lg py-3 md:py-10 px-5 shadow-2xl hover:shadow-sm transition-all duration-700"
+        class="absolute z-10 login-form right-[50%] translate-x-[50%] forms container max-w-xl mx-auto self-center bg-white font-semibold rounded-lg py-3 md:py-10 px-5 shadow-2xl hover:shadow-sm transition-all duration-700"
       >
         <div class="flex flex-col items-center space-y-5 text-gray-600">
           <h2 class="text-xl md:text-2xl">Login to your account</h2>
@@ -213,12 +213,12 @@
 
       <!-- Date and Current Balance -->
       <div
-        class="date-current-balance flex flex-row justify-between items-center text-gray-700 h-20 w-full mt-5 duration-1000"
+        class="date-current-balance flex flex-row justify-between items-center text-gray-700 h-20 w-full mt-5 duration-1000 opacity-0"
       >
         <div>
           <h3 class="text-xl md:text-2xl">Current Balance</h3>
           <p class="font-semibold text-gray-500">
-            As of <span>17/03/2023</span>
+            As of <span class="date">17/03/2023</span>
           </p>
         </div>
         <div>
@@ -229,7 +229,7 @@
       <!-- main dashboard -->
 
       <div
-        class="main-dashboard w-full flex flex-col mt-5 h-full rounded-md overflow-hidden height duration-1000"
+        class="main-dashboard w-full flex flex-col mt-5 h-full rounded-md overflow-hidden height duration-1000 opacity-0"
       >
         <!-- movements container -->
         <div
@@ -242,7 +242,7 @@
             <!-- withdrawal -->
             <div class="withdrawal summary">
               <div class="summary-subcontainer">
-                <p class="summary-desc bg-red-500">9 WITHDRAWAL</p>
+                <p class="summary-desc-withdrawal">9 WITHDRAWAL</p>
                 <p class="text-gray-500">TODAY</p>
               </div>
               <p class="text-xl text-gray-700">-4 000€</p>
@@ -251,7 +251,7 @@
             <!-- deposit -->
             <div class="summary">
               <div class="summary-subcontainer">
-                <p class="summary-desc bg-green-500">8 DEPOSIT</p>
+                <p class="summary-desc-deposit">8 DEPOSIT</p>
                 <p class="text-gray-500">YESTERDAY</p>
               </div>
               <p class="text-xl text-gray-700">2 000€</p>

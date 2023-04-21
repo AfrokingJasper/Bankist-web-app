@@ -178,6 +178,7 @@ const loginUsername = document.querySelector("#username");
 const loginPassword = document.querySelector("#password");
 
 // dashborad, date and balance content
+const date = document.querySelector(".date");
 const dashboard = document.querySelector(".main-dashboard");
 const dateAndBalance = document.querySelector(".date-current-balance");
 const balance = document.querySelector(".balance");
@@ -187,44 +188,54 @@ const movementSummary = document.querySelector(".movement-summary");
 console.log(movementSummary);
 let currentAccount;
 
-// console.log(bank.acoounts[0].movements);
-const moves = bank.acoounts[0].movements;
-console.log(moves);
+// const formattedDate = function (date, locale) {
+//   const calcDaysPast = (date1, date2) =>
+//     Math.floor(Math.abs((date2 - date1) / (1000 * 60 * 60 * 24)));
 
-moves.forEach((mo, i) => {
-  const html = document.createElement("div");
-  html.innerHTML = `
-<div
-class="withdrawal summary"
->
-<div class="summary-subcontainer">
-  <p class="summary-desc bg-red-500 ">
-    ${i + 1} withdrawal
-  </p>
-  <p class="text-gray-500">TODAY</p>
-</div>
-<p class="text-xl text-gray-700">${mo}€</p>
-</div>
+//   const daysPast = calcDaysPast(new Date(), date);
+
+//   if (daysPast > 10) {
+//     console.log("yes");
+//   } else {
+//     return new Intl.DateTimeFormat(locale).format(date);
+//   }
+// };
+
+// const dated = new Date("2023-04-16T10:51:36.790Z");
+// const dates = formattedDate(dated, bank.acoounts[0].locale);
+// console.log(dates);
+
+const displayMovements = function (account) {
+  const moves = account.movements;
+  console.log(moves);
+
+  moves.forEach(function (mo, i) {
+    const type = mo > 0 ? `deposit` : `withdrawal`;
+
+    const rawDate = new Date(account.movementDates[i]);
+    const date = new Intl.DateTimeFormat(account.locale).format(rawDate);
+    console.log(date);
+
+    const html = document.createElement("div");
+    html.innerHTML = `
+    <div
+    class="withdrawal summary"
+    >
+       <div class="summary-subcontainer">
+         <p class="summary-desc-${type}">
+           ${i + 1} ${type}
+         </p>
+         <p class="text-gray-500">${date}</p>
+       </div>
+      <p class="text-xl text-gray-700">${mo}€</p>
+    </div>
   `;
 
-  movementSummary.insertAdjacentElement("afterbegin", html);
-});
+    movementSummary.insertAdjacentElement("afterbegin", html);
+  });
+};
 
-// html.innerHTML = `
-// <div
-// class="withdrawal flex flex-row h-16 items-center justify-between md:px-10 bg-blue-300 border-b-2"
-// >
-// <div class="flex flex-row font-semibold text-xs space-x-5">
-//   <p class="text-white bg-red-500 px-2 rounded-full">
-//     9 WITHDRAWAL
-//   </p>
-//   <p class="text-gray-500">TODAY</p>
-// </div>
-// <p class="text-xl text-gray-700">-4 000€</p>
-// </div>
-//   `;
-
-// movementSummary.insertAdjacentElement("afterbegin", html);
+// login event handler
 
 loginForm.addEventListener("submit", function (e) {
   e.preventDefault();
@@ -242,10 +253,31 @@ loginForm.addEventListener("submit", function (e) {
     welcomeMessage.textContent = `Welcom ${currentAccount.owner
       .split(" ")
       .slice(0, 1)}`;
+    movementSummary.innerHTML = "";
+    displayMovements(currentAccount);
 
-    console.log(move);
+    const currenDate = new Date();
+    const options = {
+      hour: "numeric",
+      minute: "numeric",
+      day: "numeric",
+      month: "numeric",
+      year: "numeric",
+    };
+
+    date.textContent = Intl.DateTimeFormat(
+      currentAccount.locale,
+      options
+    ).format(currenDate);
+
+    console.log(new Date().getDate());
   } else {
     alert("username or password is incorrect");
     loginPassword.value = loginUsername.value = "";
   }
 });
+
+const calcDaysPast = (date1, date2) =>
+  Math.floor(Math.abs((date2 - date1) / (1000 * 60 * 60 * 24)));
+
+console.log(new Date() - new Date("2023-03-21T10:51:36.790Z"));
