@@ -37,8 +37,8 @@
 }
 
 .summary-desc-withdrawal {
-  @apply px-2 rounded-full text-white bg-red-500;
+  @apply px-2 rounded-full text-white bg-red-500 uppercase;
 }
 .summary-desc-deposit {
-  @apply px-2 rounded-full text-white bg-green-500;
+  @apply px-2 rounded-full text-white bg-green-500 uppercase;
 }

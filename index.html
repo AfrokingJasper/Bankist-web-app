@@ -112,7 +112,7 @@
 
       <!-- sign up form -->
       <form
-        class="forms absolute right-[50%] translate-x-[50%] container max-w-lg mx-auto self-center bg-white font-semibold rounded-lg py-3 md:pt-10 md:py-5 px-5 shadow-2xl hover:shadow-sm transition-all fade-in duration-1000"
+        class="forms z-10 absolute right-[50%] translate-x-[50%] container max-w-lg mx-auto self-center bg-white font-semibold rounded-lg py-3 md:pt-10 md:py-5 px-5 shadow-2xl hover:shadow-sm transition-all fade-in duration-1000"
       >
         <div class="flex flex-col items-center space-y-5 text-gray-600">
           <h2 class="text-xl md:text-2xl text-">
@@ -277,14 +277,14 @@
                 <div class="flex flex-col items-center w-[40%]">
                   <input
                     id="transfer-amount"
-                    type="text"
+                    type="number"
                     class="transparent inputs"
                   />
                   <label for="transfer-amount">Amount</label>
                 </div>
 
                 <!-- button -->
-                <button class="transaction-btn">
+                <button class="transaction-btn transfer-btn">
                   <p class="-translate-y-0.5">&rarr;</p>
                 </button>
               </form>
@@ -299,14 +299,14 @@
                 <div class="flex flex-col items-center w-[40%]">
                   <input
                     id="loan-amount"
-                    type="text"
+                    type="number"
                     class="transparent inputs"
                   />
                   <label for="loan-amount">Amount</label>
                 </div>
 
                 <!-- button -->
-                <button class="transaction-btn">
+                <button class="transaction-btn loan-btn">
                   <p class="-translate-y-0.5">&rarr;</p>
                 </button>
               </form>
@@ -340,7 +340,7 @@
                 </div>
 
                 <!-- button -->
-                <button class="transaction-btn">
+                <button class="transaction-btn close-btn">
                   <p class="-translate-y-0.5">&rarr;</p>
                 </button>
               </form>

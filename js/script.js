@@ -7,6 +7,8 @@ const passwordInputSignUp = document.querySelector(".password-signup");
 const forms = document.querySelectorAll(".forms");
 const changeForm = document.querySelectorAll(".change-form");
 
+// //////////////////////////////////////////
+// SWITCH BETWEEN SIGN UP AND SIGN IN FORM
 changeForm.forEach((change) =>
   change.addEventListener("click", function (e) {
     e.preventDefault();
@@ -15,6 +17,8 @@ changeForm.forEach((change) =>
   })
 );
 
+// //////////////////////////////////////
+// TOGGLE PASSOWRD VIEW FOR BOTH SIGN UP AND SIGN IN FORM
 viewPasswordSignUp.addEventListener("click", function () {
   toggleSignUp();
   passwordInputSignUp.setAttribute("type", "password");
@@ -42,8 +46,8 @@ function toggleSignUp() {
   viewPasswordSignUp.classList.toggle("hidden");
 }
 
-// trial
-
+// /////////////////////////////
+// BANK ACCOUNT CLASS
 class BankAccount {
   constructor(
     owner,
@@ -64,6 +68,8 @@ class BankAccount {
   }
 }
 
+// //////////////////////////
+// BANK CLASS ALSO CONTAINING CREATE ACCOUNT FUNCTION
 class Bank {
   constructor() {
     this.acoounts = [];
@@ -84,8 +90,10 @@ class Bank {
   }
 }
 
-const bank = new Bank();
+const bank = new Bank(); // create a new bank instance
 
+// /////////////////////////////////
+// HARD CODED ACCOUNTS FOR TESTING PURPOSE
 const account1 = new BankAccount(
   "Fortune Oliseyenum",
   [200, 450, -400, 3000, -650, -130, 70, 1300],
@@ -98,20 +106,12 @@ const account1 = new BankAccount(
     "2020-01-25T14:18:46.235Z",
     "2020-02-05T16:33:06.386Z",
     "2023-03-18T14:43:26.374Z",
-    "2023-03-19T18:49:59.371Z",
-    "2023-03-20T12:01:20.894Z",
+    "2023-04-18T18:49:59.371Z",
+    "2023-04-20T12:01:20.894Z",
   ],
   "USD",
   "en-US"
 );
-
-// owner,
-// movements,
-// pin,
-// interestRates,
-// [],
-// currency,
-// locale
 
 bank.addAccounts(account1);
 // console.log(bank);
@@ -127,25 +127,17 @@ const account2 = new BankAccount(
     "2020-01-28T09:15:04.904Z",
     "2020-04-01T10:17:24.185Z",
     "2020-05-08T14:11:59.604Z",
-    "2023-03-14T17:01:17.194Z",
-    "2023-03-18T23:36:17.929Z",
-    "2023-03-21T10:51:36.790Z",
+    "2023-04-14T17:01:17.194Z",
+    "2023-04-18T23:36:17.929Z",
+    "2023-04-20T10:51:36.790Z",
   ],
   "EUR",
   "pt-PT"
 );
 bank.addAccounts(account2);
 
-// const creatUserName = function (fullName) {
-//   fullName.forEach(function (full) {
-//     full.username = full.owner
-//       .toLowerCase()
-//       .split(" ")
-//       .map((name) => name[0])
-//       .join("");
-//   });
-// };
-
+// ///////////////////////////////
+// CREATE USERNAME FOR EACH ACCOUNT
 const creatUserName = function (fullname) {
   fullname.forEach((full) => {
     full.username = full.owner
@@ -157,20 +149,7 @@ const creatUserName = function (fullname) {
   });
 };
 
-// const creatUserName = function (full) {
-//   full.username = full.owner
-//     .toLowerCase()
-//     .split(" ")
-//     .map((name) => name[0])
-//     .join("");
-// };
-
 creatUserName(bank.acoounts);
-console.log(bank.acoounts);
-
-// const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
-
-// console.log(bank);
 
 const headerRight = document.querySelector(".header-right-content");
 const loginForm = document.querySelector(".login-form");
@@ -185,36 +164,43 @@ const balance = document.querySelector(".balance");
 const welcomeMessage = document.querySelector(".welcome-el");
 const withdrawals = document.querySelector(".withdrawal");
 const movementSummary = document.querySelector(".movement-summary");
-console.log(movementSummary);
+// console.log(movementSummary);
 let currentAccount;
 
-// const formattedDate = function (date, locale) {
-//   const calcDaysPast = (date1, date2) =>
-//     Math.floor(Math.abs((date2 - date1) / (1000 * 60 * 60 * 24)));
+////////////////////////////////////////////
+// date format
+const formattedDate = function (date, locale) {
+  const calcDaysPast = (date1, date2) =>
+    Math.floor(Math.abs((date2 - date1) / (1000 * 60 * 60 * 24)));
 
-//   const daysPast = calcDaysPast(new Date(), date);
+  const daysPast = calcDaysPast(new Date(), date);
 
-//   if (daysPast > 10) {
-//     console.log("yes");
-//   } else {
-//     return new Intl.DateTimeFormat(locale).format(date);
-//   }
-// };
+  if (daysPast === 0) {
+    return `TODAY`;
+  }
+  if (daysPast === 1) {
+    return `YESTERDAY`;
+  }
+  if (daysPast <= 7) {
+    return `${daysPast} DAYS AGO`;
+  } else {
+    return new Intl.DateTimeFormat(locale).format(date);
+  }
+};
 
-// const dated = new Date("2023-04-16T10:51:36.790Z");
-// const dates = formattedDate(dated, bank.acoounts[0].locale);
-// console.log(dates);
-
+// ////////////////////////////////
+// DISPLAY MOVEMENTS
 const displayMovements = function (account) {
+  movementSummary.innerHTML = "";
   const moves = account.movements;
-  console.log(moves);
+  // console.log(moves);
 
   moves.forEach(function (mo, i) {
     const type = mo > 0 ? `deposit` : `withdrawal`;
 
     const rawDate = new Date(account.movementDates[i]);
-    const date = new Intl.DateTimeFormat(account.locale).format(rawDate);
-    console.log(date);
+    const date = formattedDate(rawDate, account.locale);
+    // console.log(date);
 
     const html = document.createElement("div");
     html.innerHTML = `
@@ -235,7 +221,30 @@ const displayMovements = function (account) {
   });
 };
 
+// display Balance
+const displayBalance = function (account) {
+  account.balance = account.movements.reduce((mov, cur) => (mov += cur));
+  balance.textContent = `${account.balance}€`;
+};
+
+const updateUI = function (account) {
+  displayBalance(account);
+  displayMovements(account);
+};
+
+// ////////////////////////
 // login event handler
+
+const dislayDashboard = function () {
+  dashboard.classList.remove("opacity-0");
+  dateAndBalance.classList.remove("opacity-0");
+  forms.forEach((form) => form.classList.add("hidden"));
+};
+
+// currentAccount = account1;
+// displayMovements(currentAccount);
+// displayBalance(currentAccount);
+// dislayDashboard();
 
 loginForm.addEventListener("submit", function (e) {
   e.preventDefault();
@@ -245,16 +254,13 @@ loginForm.addEventListener("submit", function (e) {
 
   if (currentAccount?.pin === +loginPassword.value) {
     console.log(currentAccount);
-    dashboard.classList.remove("opacity-0");
-    dateAndBalance.classList.remove("opacity-0");
-    forms.forEach((form) => form.classList.add("hidden"));
-    const move = currentAccount.movements.reduce((mov, cur) => (mov += cur));
-    balance.textContent = `${move}€`;
+    dislayDashboard();
+
     welcomeMessage.textContent = `Welcom ${currentAccount.owner
       .split(" ")
       .slice(0, 1)}`;
-    movementSummary.innerHTML = "";
-    displayMovements(currentAccount);
+
+    updateUI(currentAccount);
 
     const currenDate = new Date();
     const options = {
@@ -269,15 +275,108 @@ loginForm.addEventListener("submit", function (e) {
       currentAccount.locale,
       options
     ).format(currenDate);
-
-    console.log(new Date().getDate());
+    console.log(currentAccount.balance);
+    loginPassword.value = loginUsername.value = "";
   } else {
     alert("username or password is incorrect");
-    loginPassword.value = loginUsername.value = "";
   }
 });
 
-const calcDaysPast = (date1, date2) =>
-  Math.floor(Math.abs((date2 - date1) / (1000 * 60 * 60 * 24)));
+/////////////////////////////////////
+// TRANSFER BUTTON
+const transferInput = document.querySelector("#transfer");
+const transferAmount = document.querySelector("#transfer-amount");
+const transferBtn = document.querySelector(".transfer-btn");
 
-console.log(new Date() - new Date("2023-03-21T10:51:36.790Z"));
+transferBtn.addEventListener("click", function (e) {
+  e.preventDefault();
+
+  const amount = +transferAmount.value;
+
+  const receiverAccount = bank.acoounts.find(
+    (acc) => acc.username === transferInput.value
+  );
+
+  if (amount > currentAccount.balance) {
+    alert("insufficient funds");
+  }
+  if (!receiverAccount) {
+    alert("user does not exist");
+  }
+  if (
+    receiverAccount &&
+    amount > 0 &&
+    amount < currentAccount.balance &&
+    receiverAccount.username !== currentAccount.username
+  ) {
+    const confirmPin = prompt("input pin for cofirm transaction");
+    if (+confirmPin === currentAccount.pin) {
+      currentAccount.movements.push(-amount);
+      receiverAccount.movements.push(amount);
+      currentAccount.movementDates.push(new Date().toISOString());
+      updateUI(currentAccount);
+      receiverAccount.movementDates.push(new Date().toISOString());
+      // console.log(receiverAccount);
+      transferAmount.value = transferInput.value = "";
+    } else {
+      alert("incorrect pin! try again");
+    }
+  }
+});
+// console.log(new Date().toISOString());
+
+welcomeMessage.addEventListener("click", function () {
+  forms.forEach((form) => form.classList.remove("hidden"));
+});
+
+// ///////////////////////////////////////////
+// LOAN EVENT HANDLERS AND VARIABLES
+const loanBtn = document.querySelector(".loan-btn");
+const loanInput = document.querySelector("#loan-amount");
+loanBtn.addEventListener("click", function (e) {
+  e.preventDefault();
+  const loanAmount = +loanInput.value;
+  console.log(loanAmount);
+
+  if (
+    currentAccount.movements.some((mov) => mov >= loanAmount / 2) &&
+    loanAmount > 0
+  ) {
+    setTimeout(() => {
+      currentAccount.movements.push(loanAmount);
+      currentAccount.movementDates.push(new Date().toISOString());
+      updateUI(currentAccount);
+      loanInput.value = "";
+    }, 1500);
+    // console.log("yes");
+  } else {
+    alert("cannot process loan at the moment");
+  }
+});
+
+// ///////////////////////////////////////////////
+// CLOSE ACCOUNT EVENT HANDLERS AND VARIABLES
+const closeUsername = document.querySelector("#close-usernmae");
+const closePin = document.querySelector("#close-pin");
+const closeBtn = document.querySelector(".close-btn");
+
+closeBtn.addEventListener("click", function (e) {
+  e.preventDefault();
+
+  if (
+    currentAccount.username === closeUsername.value &&
+    currentAccount.pin === +closePin.value
+  ) {
+    const confirmCloseAccount = prompt(
+      "please input you pin to confirm closure of account"
+    );
+    if (currentAccount.pin === +confirmCloseAccount) {
+      console.log("correct");
+      welcomeMessage.textContent = "Login to get started";
+      // dislayDashboard();
+      dashboard.classList.add("opacity-0");
+      dateAndBalance.classList.add("opacity-0");
+      forms.forEach((form) => form.classList.remove("opacity-0"));
+    }
+  }
+});
