@@ -29,7 +29,7 @@
 
 /* summary divs */
 .summary {
-  @apply flex flex-row h-16 items-center justify-between md:px-10 bg-blue-300 border-b-2;
+  @apply flex flex-row h-16 px-2 items-center justify-between md:px-10 bg-blue-50 border-b-2;
 }
 
 .summary-subcontainer {

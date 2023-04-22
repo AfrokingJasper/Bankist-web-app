@@ -391,7 +391,7 @@ loginForm.addEventListener("submit", function (e) {
     alert(
       "IMPORTANT NOTICE: You can make transfers to either of these accounts ('fortune18' or 'destiny18' )"
     );
-    console.log(currentAccount);
+    // console.log(currentAccount);
     dislayDashboard();
 
     welcomeMessage.textContent = `Welcome ${currentAccount.owner
@@ -521,7 +521,7 @@ closeBtn.addEventListener("click", function (e) {
       "please input you pin to confirm closure of account"
     );
     if (currentAccount.pin === confirmCloseAccount) {
-      console.log("correct");
+      // console.log("correct");
 
       const index = bank.acoounts.findIndex(
         (acc) => acc.username === currentAccount.username
@@ -575,17 +575,10 @@ signUpForm.addEventListener("submit", function (e) {
     );
     bank.addAccounts(account);
     creatUserName(bank.acoounts);
-    console.log(bank.acoounts);
+    // console.log(bank.acoounts);
     alert(`Your username is ${account.username}`);
     forms.forEach((form) => form.classList.toggle("fade-in"));
   } else {
     alert("error! please make sure all forms are filled corectly");
   }
-
-  // console.log(locale.value);
-  // console.log(userCurrency.value);
-
-  // console.log(name, deposit, password);
-
-  // console.log("form submitted");
 });
