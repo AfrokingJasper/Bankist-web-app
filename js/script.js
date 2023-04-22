@@ -42,7 +42,8 @@ const closeBtn = document.querySelector(".close-btn");
 
 const logo = document.querySelector(".logo");
 logo.addEventListener("click", function () {
-  forms.forEach((form) => form.classList.remove("hidden"));
+  const pin = prompt("input pin to confirm logout");
+  currentAccount.pin === +pin ? logout() : alert("incorrect pin! Try again");
 });
 
 // //////////////////////////////////////////
@@ -51,7 +52,6 @@ changeForm.forEach((change) =>
   change.addEventListener("click", function (e) {
     e.preventDefault();
     forms.forEach((form) => form.classList.toggle("fade-in"));
-    // forms.forEach((form) => form.classList.toggle("hidden"));
   })
 );
 
@@ -221,6 +221,14 @@ const formatCur = function (locale, currency, value) {
   }).format(value);
 };
 
+const logout = function () {
+  welcomeMessage.textContent = "Login to get started";
+  // dislayDashboard();
+  dashboard.classList.add("opacity-0");
+  dateAndBalance.classList.add("opacity-0");
+  forms.forEach((form) => form.classList.remove("hidden"));
+};
+
 // //////////////////////////////
 // SETTTING LOGOUT TIMER AND FUNCTION
 const logoutTimer = document.querySelector(".logout-timer");
@@ -233,11 +241,7 @@ const setLogoutTimer = function () {
     logoutTimer.textContent = `${min}:${sec}`;
     if (time === 0) {
       clearInterval(timer);
-      welcomeMessage.textContent = "Login to get started";
-      // dislayDashboard();
-      dashboard.classList.add("opacity-0");
-      dateAndBalance.classList.add("opacity-0");
-      forms.forEach((form) => form.classList.remove("hidden"));
+      logout();
     }
     {
       time--;
@@ -305,7 +309,6 @@ const updateUI = function (account) {
 // login event handler
 
 const displaySummary = function (account) {
-  // const formattedCur = formatCur(account.locale, account.currency, mo);
   // incomes
   const income = account.movements
     .filter((mov) => mov > 0)
@@ -362,7 +365,7 @@ loginForm.addEventListener("submit", function (e) {
 
   if (currentAccount?.pin === +loginPassword.value) {
     alert(
-      "you can make transfers to either of these accounts ('Fortune18' or 'destiny18' )"
+      "IMPORTANT NOTICE: You can make transfers to either of these accounts ('fortune18' or 'destiny18' )"
     );
     console.log(currentAccount);
     dislayDashboard();
@@ -484,12 +487,11 @@ closeBtn.addEventListener("click", function (e) {
         (acc) => acc.username === currentAccount.username
       );
       bank.acoounts.splice(index, 1);
-      console.log(bank.acoounts);
-      welcomeMessage.textContent = "Login to get started";
-      // dislayDashboard();
-      dashboard.classList.add("opacity-0");
-      dateAndBalance.classList.add("opacity-0");
-      forms.forEach((form) => form.classList.remove("hidden"));
+      logout();
+      // welcomeMessage.textContent = "Login to get started";
+      // dashboard.classList.add("opacity-0");
+      // dateAndBalance.classList.add("opacity-0");
+      // forms.forEach((form) => form.classList.remove("hidden"));
     }
   }
 });
