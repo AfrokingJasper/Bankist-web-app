@@ -13,7 +13,8 @@
       <nav
         class="flex flex-row items-center justify-between text-gray-600 md:mx-10"
       >
-        <img src="img/logo.png" alt="" class="h-14 w-14" />
+        <img src="img/logo.png" alt="" class="h-14 w-14 logo" />
+
         <h3 class="text-xl font-semibold header-right-content welcome-el">
           Login to get started
         </h3>
@@ -35,7 +36,7 @@
               id="username"
               type="text"
               placeholder="Enter you username"
-              class="border border-gray-300 p-2 rounded-md focus:outline-none font-normal placeholder:font-light"
+              class="signin-signup-inputs"
             />
           </div>
           <div
@@ -47,7 +48,7 @@
                 id="password"
                 type="password"
                 placeholder="Enter you password"
-                class="border border-gray-300 p-2 rounded-md w-[100%] focus:outline-none font-normal placeholder:font-light password"
+                class="signin-signup-inputs w-[100%] password"
               />
               <div
                 class="svg-container absolute right-3 top-[50%] -translate-y-[50%]"
@@ -123,12 +124,12 @@
           <div
             class="flex flex-col w-full md:w-[70%] space-y-2 text-md md:text-xl"
           >
-            <label for="firstname">Firstname</label>
+            <label for="firstname">Full Name</label>
             <input
               id="firstname"
               type="text"
-              placeholder="Enter you Firstname"
-              class="border border-gray-300 p-2 rounded-md focus:outline-none font-normal placeholder:font-light"
+              placeholder="Enter your fullname"
+              class="signin-signup-inputs"
             />
           </div>
 
@@ -136,24 +137,24 @@
           <div
             class="flex flex-col w-full md:w-[70%] space-y-2 text-md md:text-xl"
           >
-            <label for="lastname">Lastname</label>
+            <label for="lastname">initial Deposit</label>
             <input
               id="lastname"
               type="text"
-              placeholder="Enter you Firstname"
-              class="border border-gray-300 p-2 rounded-md focus:outline-none font-normal placeholder:font-light"
+              placeholder="Any amount from 1500 above"
+              class="signin-signup-inputs"
             />
           </div>
           <div
             class="flex flex-col w-full md:w-[70%] space-y-2 text-md md:text-xl"
           >
-            <label for="create-password">password</label>
+            <label for="create-password">Create password</label>
             <div class="flex relative">
               <input
                 id="create-password"
                 type="password"
-                placeholder="Enter you password"
-                class="border border-gray-300 p-2 rounded-md w-[100%] focus:outline-none font-normal placeholder:font-light password-signup"
+                placeholder="Create your unique password"
+                class="signin-signup-inputs w-[100%] password-signup"
               />
               <div class="absolute right-3 top-[50%] -translate-y-[50%]">
                 <svg
@@ -380,7 +381,9 @@
               &darr; SORT
             </div>
           </div>
-          <div class="flex md:justify-end w-full md:w-[45%] md:items-end">
+          <div
+            class="flex justify-between md:justify-end w-full md:w-[45%] md:items-end"
+          >
             <p>
               You will be logged out in
               <span class="font-bold logout-timer">5:00</span>

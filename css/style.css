@@ -1051,6 +1051,28 @@ video {
   color: rgb(255 255 255 / var(--tw-text-opacity));
 }
 
+.signin-signup-inputs {
+  border-radius: 0.375rem;
+  border-width: 1px;
+  --tw-border-opacity: 1;
+  border-color: rgb(209 213 219 / var(--tw-border-opacity));
+  padding: 0.5rem;
+  font-weight: 400;
+}
+
+.signin-signup-inputs::-moz-placeholder {
+  font-weight: 300;
+}
+
+.signin-signup-inputs::placeholder {
+  font-weight: 300;
+}
+
+.signin-signup-inputs:focus {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+
 .placeholder\:font-light::-moz-placeholder {
   font-weight: 300;
 }
@@ -1088,6 +1110,10 @@ video {
 
   .md\:mt-0 {
     margin-top: 0px;
+  }
+
+  .md\:flex {
+    display: flex;
   }
 
   .md\:h-1\/3 {

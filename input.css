@@ -42,3 +42,7 @@
 .summary-desc-deposit {
   @apply px-2 rounded-full text-white bg-green-500 uppercase;
 }
+
+.signin-signup-inputs {
+  @apply border border-gray-300 p-2 rounded-md focus:outline-none font-normal placeholder:font-light;
+}

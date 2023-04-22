@@ -40,7 +40,8 @@ const closePin = document.querySelector("#close-pin");
 const closeBtn = document.querySelector(".close-btn");
 // console.log(movementSummary);
 
-welcomeMessage.addEventListener("click", function () {
+const logo = document.querySelector(".logo");
+logo.addEventListener("click", function () {
   forms.forEach((form) => form.classList.remove("hidden"));
 });
 
@@ -287,7 +288,11 @@ const displayMovements = function (account, sort = false) {
 // display Balance FUNCTION
 const displayBalance = function (account) {
   account.balance = account.movements.reduce((mov, cur) => (mov += cur));
-  balance.textContent = `${account.balance}€`;
+  balance.textContent = `${formatCur(
+    account.locale,
+    account.currency,
+    account.balance
+  )}`;
 };
 
 const updateUI = function (account) {
@@ -300,17 +305,26 @@ const updateUI = function (account) {
 // login event handler
 
 const displaySummary = function (account) {
+  // const formattedCur = formatCur(account.locale, account.currency, mo);
   // incomes
   const income = account.movements
     .filter((mov) => mov > 0)
     .reduce((acc, cur) => (acc += cur));
-  summaryIn.textContent = `${income}€`;
+  summaryIn.textContent = `${formatCur(
+    account.locale,
+    account.currency,
+    income
+  )}`;
 
   // expenditures
   const expense = account.movements
     .filter((mov) => mov < 0)
     .reduce((acc, cur) => (cur += acc));
-  summaryOut.textContent = `${Math.abs(expense)}€`;
+  summaryOut.textContent = `${formatCur(
+    account.locale,
+    account.currency,
+    Math.abs(expense)
+  )}`;
 
   // interests
   const interest = account.movements
@@ -318,7 +332,11 @@ const displaySummary = function (account) {
     .map((mov) => mov * (account.interestRates / 100))
     .filter((int) => int > 1)
     .reduce((acc, cur) => (acc += cur));
-  summaryInterest.textContent = `${Math.floor(interest)}€`;
+  summaryInterest.textContent = `${formatCur(
+    account.locale,
+    account.currency,
+    interest
+  )}`;
 };
 
 const dislayDashboard = function () {
@@ -343,10 +361,13 @@ loginForm.addEventListener("submit", function (e) {
   );
 
   if (currentAccount?.pin === +loginPassword.value) {
+    alert(
+      "you can make transfers to either of these accounts ('Fortune18' or 'destiny18' )"
+    );
     console.log(currentAccount);
     dislayDashboard();
 
-    welcomeMessage.textContent = `Welcom ${currentAccount.owner
+    welcomeMessage.textContent = `Welcome ${currentAccount.owner
       .split(" ")
       .slice(0, 1)}`;
 
