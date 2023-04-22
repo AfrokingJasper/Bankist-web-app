@@ -6,6 +6,10 @@ const viewPasswordSignUp = document.querySelector(".view-password-signup");
 const hidePasswordSignUp = document.querySelector(".hide-password-signup");
 const passwordInputSignUp = document.querySelector(".password-signup");
 const forms = document.querySelectorAll(".forms");
+const signUpForm = document.querySelector(".sign-up");
+const SignUpName = document.querySelector("#fullname");
+const initialDeposit = document.querySelector("#initial-deposit");
+const newPassowrd = document.querySelector("#create-password");
 const changeForm = document.querySelectorAll(".change-form");
 
 // //////////////////////////////////
@@ -43,7 +47,7 @@ const closeBtn = document.querySelector(".close-btn");
 const logo = document.querySelector(".logo");
 logo.addEventListener("click", function () {
   const pin = prompt("input pin to confirm logout");
-  currentAccount.pin === +pin ? logout() : alert("incorrect pin! Try again");
+  currentAccount.pin === pin ? logout() : alert("incorrect pin! Try again");
 });
 
 // //////////////////////////////////////////
@@ -94,7 +98,8 @@ class BankAccount {
     interestRates,
     movementDates,
     currency,
-    locale
+    locale,
+    currencyRatio
   ) {
     this.owner = owner;
     this.movements = movements;
@@ -103,6 +108,7 @@ class BankAccount {
     this.movementDates = movementDates;
     this.currency = currency;
     this.locale = locale;
+    this.currencyRatio = currencyRatio;
   }
 }
 
@@ -113,7 +119,15 @@ class Bank {
     this.acoounts = [];
   }
 
-  addAccounts(owner, movements, pin, interestRates, currency, locale) {
+  addAccounts(
+    owner,
+    movements,
+    pin,
+    interestRates,
+    currency,
+    locale,
+    currencyRatio
+  ) {
     const account = new BankAccount(
       owner,
       movements,
@@ -121,7 +135,8 @@ class Bank {
       interestRates,
       [],
       currency,
-      locale
+      locale,
+      currencyRatio
     );
     this.acoounts.push(account.owner);
     return account;
@@ -135,7 +150,7 @@ const bank = new Bank(); // create a new bank instance
 const account1 = new BankAccount(
   "Fortune Oliseyenum",
   [200, 450, -400, 3000, -650, -130, 70, 1300],
-  1111,
+  "1111",
   1.2,
   [
     "2019-11-01T13:15:33.035Z",
@@ -148,7 +163,8 @@ const account1 = new BankAccount(
     "2023-04-20T12:01:20.894Z",
   ],
   "USD",
-  "en-US"
+  "en-US",
+  0.9
 );
 
 bank.addAccounts(account1);
@@ -157,7 +173,7 @@ bank.addAccounts(account1);
 const account2 = new BankAccount(
   "Destiny Oliseyenum",
   [5000, 3400, -150, -790, -3210, -1000, 8500, -30],
-  2222,
+  "2222",
   1.5,
   [
     "2019-11-18T21:31:17.178Z",
@@ -170,7 +186,8 @@ const account2 = new BankAccount(
     "2023-04-20T10:51:36.790Z",
   ],
   "EUR",
-  "pt-PT"
+  "pt-PT",
+  1
 );
 bank.addAccounts(account2);
 
@@ -320,14 +337,21 @@ const displaySummary = function (account) {
   )}`;
 
   // expenditures
-  const expense = account.movements
-    .filter((mov) => mov < 0)
-    .reduce((acc, cur) => (cur += acc));
-  summaryOut.textContent = `${formatCur(
-    account.locale,
-    account.currency,
-    Math.abs(expense)
-  )}`;
+  const expenseArray = account.movements.filter((mov) => mov < 0);
+  if (expenseArray.length < 1) {
+    summaryOut.textContent = `${formatCur(
+      account.locale,
+      account.currency,
+      Math.abs(expenseArray)
+    )}`;
+  } else {
+    const expense = expenseArray.reduce((acc, cur) => (cur += acc));
+    summaryOut.textContent = `${formatCur(
+      account.locale,
+      account.currency,
+      Math.abs(expense)
+    )}`;
+  }
 
   // interests
   const interest = account.movements
@@ -363,7 +387,7 @@ loginForm.addEventListener("submit", function (e) {
     (acc) => acc.username === loginUsername.value
   );
 
-  if (currentAccount?.pin === +loginPassword.value) {
+  if (currentAccount?.pin === loginPassword.value) {
     alert(
       "IMPORTANT NOTICE: You can make transfers to either of these accounts ('fortune18' or 'destiny18' )"
     );
@@ -415,7 +439,11 @@ transferBtn.addEventListener("click", function (e) {
     alert("insufficient funds");
   }
   if (!receiverAccount) {
-    alert("user does not exist");
+    alert(
+      `User does not exist
+you can make transfers to the following account
+'fortune18' or 'destiny18`
+    );
   }
   if (
     receiverAccount &&
@@ -424,13 +452,27 @@ transferBtn.addEventListener("click", function (e) {
     receiverAccount.username !== currentAccount.username
   ) {
     const confirmPin = prompt("input pin for cofirm transaction");
-    if (+confirmPin === currentAccount.pin) {
+    if (confirmPin === currentAccount.pin) {
       currentAccount.movements.push(-amount);
-      receiverAccount.movements.push(amount);
+      if (currentAccount.currencyRatio === receiverAccount.currencyRatio) {
+        receiverAccount.movements.push(amount);
+      }
+      if (currentAccount.currencyRatio > receiverAccount.currencyRatio) {
+        receiverAccount.movements.push(amount / receiverAccount.currencyRatio);
+      }
+      if (currentAccount.currencyRatio < receiverAccount.currencyRatio) {
+        receiverAccount.movements.push(amount * currentAccount.currencyRatio);
+      }
+
       currentAccount.movementDates.push(new Date().toISOString());
       updateUI(currentAccount);
       receiverAccount.movementDates.push(new Date().toISOString());
       transferAmount.value = transferInput.value = "";
+      setTimeout(() => {
+        alert(
+          `click the logo icon to logout and login to ${receiverAccount.username} using ${receiverAccount.pin} as password to view your recent transactions! please do this without refreshing your browser as you details are not stored in any database`
+        );
+      }, 1200);
     } else {
       alert("incorrect pin! try again");
     }
@@ -447,7 +489,6 @@ const loanInput = document.querySelector("#loan-amount");
 loanBtn.addEventListener("click", function (e) {
   e.preventDefault();
   const loanAmount = +loanInput.value;
-  console.log(loanAmount);
 
   if (
     currentAccount.movements.some((mov) => mov >= loanAmount / 2) &&
@@ -459,7 +500,6 @@ loanBtn.addEventListener("click", function (e) {
       updateUI(currentAccount);
       loanInput.value = "";
     }, 1500);
-    // console.log("yes");
   } else {
     alert("cannot process loan at the moment");
   }
@@ -475,12 +515,12 @@ closeBtn.addEventListener("click", function (e) {
 
   if (
     currentAccount.username === closeUsername.value &&
-    currentAccount.pin === +closePin.value
+    currentAccount.pin === closePin.value
   ) {
     const confirmCloseAccount = prompt(
       "please input you pin to confirm closure of account"
     );
-    if (currentAccount.pin === +confirmCloseAccount) {
+    if (currentAccount.pin === confirmCloseAccount) {
       console.log("correct");
 
       const index = bank.acoounts.findIndex(
@@ -488,10 +528,6 @@ closeBtn.addEventListener("click", function (e) {
       );
       bank.acoounts.splice(index, 1);
       logout();
-      // welcomeMessage.textContent = "Login to get started";
-      // dashboard.classList.add("opacity-0");
-      // dateAndBalance.classList.add("opacity-0");
-      // forms.forEach((form) => form.classList.remove("hidden"));
     }
   }
 });
@@ -504,4 +540,52 @@ btnSort.addEventListener("click", function (e) {
 
   displayMovements(currentAccount, !sorted);
   sorted = !sorted;
+});
+
+signUpForm.addEventListener("submit", function (e) {
+  e.preventDefault();
+  const locale = document.querySelector("#locale").value;
+  const userCurrency = document.querySelector("#user-currency").value;
+  const name = SignUpName.value;
+  const deposit = Number(initialDeposit.value);
+  const password = newPassowrd.value;
+
+  const nameCheck = name.split(" ");
+  let curRatio;
+
+  if (nameCheck.length > 1 && userCurrency && password && deposit && locale) {
+    if (userCurrency === "USD") {
+      curRatio = 0.9;
+    }
+    if (userCurrency === "EUR") {
+      curRatio = 1;
+    }
+    if (userCurrency === "NGN") {
+      curRatio = 0.002;
+    }
+    const account = new BankAccount(
+      name,
+      [deposit],
+      password,
+      1.2,
+      [new Date().toISOString()],
+      userCurrency,
+      locale,
+      curRatio
+    );
+    bank.addAccounts(account);
+    creatUserName(bank.acoounts);
+    console.log(bank.acoounts);
+    alert(`Your username is ${account.username}`);
+    forms.forEach((form) => form.classList.toggle("fade-in"));
+  } else {
+    alert("error! please make sure all forms are filled corectly");
+  }
+
+  // console.log(locale.value);
+  // console.log(userCurrency.value);
+
+  // console.log(name, deposit, password);
+
+  // console.log("form submitted");
 });

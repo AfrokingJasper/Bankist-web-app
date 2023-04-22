@@ -24,7 +24,7 @@
     <main class="max-w-5xl flex flex-col md:px-10 mx-auto relative">
       <!-- login form -->
       <form
-        class="absolute z-10 login-form right-[50%] translate-x-[50%] forms container max-w-xl mx-auto self-center bg-white font-semibold rounded-lg py-3 md:py-10 px-5 shadow-2xl hover:shadow-sm transition-all duration-700"
+        class="fade-in absolute z-10 login-form right-[50%] translate-x-[50%] forms container max-w-xl mx-auto self-center bg-white font-semibold rounded-lg py-3 md:py-10 px-5 shadow-2xl hover:shadow-sm transition-all duration-700"
       >
         <div class="flex flex-col items-center space-y-5 text-gray-600">
           <h2 class="text-xl md:text-2xl">Login to your account</h2>
@@ -113,7 +113,7 @@
 
       <!-- sign up form -->
       <form
-        class="forms z-10 absolute right-[50%] translate-x-[50%] container max-w-lg mx-auto self-center bg-white font-semibold rounded-lg py-3 md:pt-10 md:py-5 px-5 shadow-2xl hover:shadow-sm transition-all fade-in duration-1000"
+        class="forms sign-up z-10 absolute right-[50%] translate-x-[50%] container max-w-lg mx-auto self-center bg-white font-semibold rounded-lg py-3 md:pt-10 md:py-5 px-5 shadow-2xl hover:shadow-sm transition-all duration-1000"
       >
         <div class="flex flex-col items-center space-y-5 text-gray-600">
           <h2 class="text-xl md:text-2xl text-">
@@ -124,27 +124,56 @@
           <div
             class="flex flex-col w-full md:w-[70%] space-y-2 text-md md:text-xl"
           >
-            <label for="firstname">Full Name</label>
+            <label for="fullname">Full Name</label>
             <input
-              id="firstname"
+              id="fullname"
               type="text"
               placeholder="Enter your fullname"
               class="signin-signup-inputs"
             />
           </div>
 
-          <!-- lastname -->
+          <!-- initial deposit -->
           <div
             class="flex flex-col w-full md:w-[70%] space-y-2 text-md md:text-xl"
           >
-            <label for="lastname">initial Deposit</label>
+            <label for="initial-deposit">initial Deposit</label>
             <input
-              id="lastname"
-              type="text"
+              id="initial-deposit"
+              type="number"
               placeholder="Any amount from 1500 above"
               class="signin-signup-inputs"
             />
           </div>
+
+          <!-- locale and currency -->
+          <div class="flex flex-row w-full md:w-[70%] text-md md:text-xl">
+            <div class="w-1/2">
+              <select
+                name="locale"
+                id="locale"
+                class="w-full border-2 border-gray-400 focus:outline-none"
+              >
+                <option value="options">Locale</option>
+                <option value="pt-PT">Portugal</option>
+                <option value="en-US">US</option>
+                <option value="en-NG">Nigeria</option>
+              </select>
+            </div>
+            <div class="w-1/2">
+              <select
+                name="currency"
+                id="user-currency"
+                class="w-full border-2 border-gray-400 focus:outline-none"
+              >
+                <option value="options">Currency</option>
+                <option value="EUR">Euro</option>
+                <option value="USD">USD</option>
+                <option value="NGN">Naira</option>
+              </select>
+            </div>
+          </div>
+
           <div
             class="flex flex-col w-full md:w-[70%] space-y-2 text-md md:text-xl"
           >
@@ -196,6 +225,7 @@
             </div>
           </div>
           <button
+            type="submit  "
             class="bg-green-600 w-full py-2 px-4 rounded-lg text-gray-200 mt-5 hover:bg-green-500 active:bg-green-800 duration-200 md:w-[70%]"
           >
             Sign in
