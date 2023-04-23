@@ -378,7 +378,7 @@ const dislayDashboard = function () {
 // dislayDashboard();
 
 //
-// EVENT HANDLER FUNCTION
+// EVENT HANDLERS
 // //////////////////////////////
 // LOGIN FORM EVENR HANDLER
 loginForm.addEventListener("submit", function (e) {
@@ -448,7 +448,7 @@ you can make transfers to the following account
   if (
     receiverAccount &&
     amount > 0 &&
-    amount < currentAccount.balance &&
+    amount <= currentAccount.balance &&
     receiverAccount.username !== currentAccount.username
   ) {
     const confirmPin = prompt("input pin for cofirm transaction");
